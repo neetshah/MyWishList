@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
@@ -13,6 +13,10 @@ stores = [
         ]
     }
 ]
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/store', methods=['POST'])
 def create_store():
@@ -41,7 +45,7 @@ def create_item_in_store(name):
         if store['name'] == name:
             request_data = request.get_JSON()
             new_item = {
-                'name': request_date['name']
+                'name': request_date['name'],
                 'items': request_data['price']
             }
             store['items'].append(new_item)
