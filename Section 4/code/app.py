@@ -16,8 +16,15 @@ class Item(Resource):
     def post(self, name):
         item = {'name': name, 'price': 12.00}
         items.append(item)
-        return item
+        return item, 201
+
+class ItemList(Resource):
+    def get(self):
+        return {'items': items}
+
+
 
 api.add_resource(Item, '/item/<string:name>') #http://127.0.0.1:5000/student/Dave
+api.add_resource(ItemList, '/items')
 
-app.run(port=5000)
+app.run(port=5000, debug=True)
