@@ -1,5 +1,5 @@
 import sqlite3
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 class User:
     def __init__(self, id, username, password):
@@ -40,7 +40,22 @@ class User:
         return user
 
 class UserRegister(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('username',
+        type=str,
+        required=True,
+        help="This field cannot be blank."
+    )
+    parser.add_argument('password',
+        type=str,
+        required=True,
+        help="This field cannot be blank."
+    )
+
     def post(self):
+        data = UserRegister.parser.parse_args()
+
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
